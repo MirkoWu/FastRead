@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+def config = rootProject.ext.ver
+def library = rootProject.ext.library
+
+android {
+    compileSdkVersion config.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.mirkowu.fastread"
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(rootProject.ext.keystorePath)
+            storePassword rootProject.ext.keystorePassword
+            keyAlias rootProject.ext.alias
+            keyPassword rootProject.ext.aliasPassword
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+greendao {
+    //数据库的schema版本，也可以理解为数据库版本号
+    schemaVersion 1
+    //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+    daoPackage 'com.mirkowu.fastread.dao'
+    //设置DaoMaster、DaoSession、Dao目录
+    targetGenDir 'src/main/java'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+
+    implementation project(':baselibrary')
+    debugImplementation project(':baselibrary')
+
+    annotationProcessor library.butterknife_compiler
+    annotationProcessor library.glide_compiler
+
+    implementation library.okio
+    implementation library.okhttp
+    implementation library.okhttp_logging
+    implementation library.gson
+    implementation library.retrofit2
+    implementation library.retrofit2_gson
+    implementation library.retrofit2_adapter
+
+    implementation library.TabLayout
+    implementation library.greendao
+
+//    implementation(name: 'baselibrary-release', ext: 'aar')
+//    api library.supportV4
+//    api library.supportV7
+//    api library.design
+//    api library.cardview
+//    api library.recyclerview
+//    api library.constraint
+//    api library.rxjava2
+//    api library.rxlifecycle2_components
+//    api library.BaseRecyclerViewAdapterHelper
+//    api library.SmartRefreshLayout
+//    api library.rxpermissions2
+//    api library.logger
+//    api library.BaseToolbar
+//    api library.StatusBarUtil
+//    api library.glide
+//
+//    api library.butterknife
+}
