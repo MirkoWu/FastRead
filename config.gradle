@@ -76,7 +76,7 @@ ext {
             ShortcutBadger               : 'me.leolin:ShortcutBadger:1.1.19@aar',
             PickerView                   : 'com.contrarywind:Android-PickerView:3.2.5',
             BaseToolbar                  : 'com.mirkowu:BaseToolbar:0.0.5',
-            StatusBarUtil                : 'com.mirkowu:StatusBarUtil:0.0.2',
+            StatusBarUtil                : 'com.mirkowu:StatusBarUtil:0.0.3',
             greendao                     : 'org.greenrobot:greendao:3.2.2',
     ]
 

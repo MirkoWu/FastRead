@@ -61,7 +61,8 @@ public class SearchActivity extends RefreshActivity implements BaseQuickAdapter.
             @Override
             public void onBindVH(BaseRVHolder holder, BookBean data, int position) {
                 ImageUtil.load(holder.getView(R.id.mIvCover), data.getCover());
-                holder.setText(R.id.mTvAuthor, data.getAuthor())
+                holder.setText(R.id.mTvName, data.getTitle())
+                        .setText(R.id.mTvAuthor, data.getAuthor())
                         .setText(R.id.mTvType, data.getCat())
                         .setText(R.id.mTvLastChapter, data.getLastChapter())
                         .setText(R.id.mTvDes, data.getShortIntro());
@@ -88,10 +89,10 @@ public class SearchActivity extends RefreshActivity implements BaseQuickAdapter.
                 .subscribe(new RxCallback<SearchBookBean>() {
                     @Override
                     public void onSuccess(@Nullable SearchBookBean data) {
-                        L.d("onSuccess  "+(data==null)+data.isOk()+data.getTotal());
-                        L.d("onSuccess  "+(data.getBooks()==null));
+                        L.d("onSuccess  " + (data == null) + data.isOk() + data.getTotal());
+                        L.d("onSuccess  " + (data.getBooks() == null));
                         mAdapter.setNewData(data.getBooks());
-                      //  setLoadMore(mAdapter, data.getBooks());
+                        //  setLoadMore(mAdapter, data.getBooks());
                     }
                 });
     }

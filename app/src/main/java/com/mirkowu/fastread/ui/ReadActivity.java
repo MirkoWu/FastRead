@@ -11,6 +11,7 @@ import com.mirkowu.fastread.bean.ContentBean;
 import com.mirkowu.fastread.network.NetworkTransformer;
 import com.mirkowu.fastread.network.RetrofitClient;
 import com.mirkowu.fastread.network.RxCallback;
+import com.mirkowu.statusbarutil.StatusBarUtil;
 import com.softgarden.baselibrary.base.BaseActivity;
 
 import butterknife.BindView;
@@ -37,6 +38,8 @@ public class ReadActivity extends BaseActivity {
 
     @Override
     protected void initialize() {
+        StatusBarUtil.fullScreen(this);
+
         bean = (ChapterBean) getIntent().getSerializableExtra(KEY_DATA);
         mTvTitle.setText(bean.getTitle());
 

@@ -15,7 +15,9 @@ import com.mirkowu.fastread.bean.ChapterBean;
 import com.mirkowu.fastread.network.NetworkTransformer;
 import com.mirkowu.fastread.network.RetrofitClient;
 import com.mirkowu.fastread.network.RxCallback;
+import com.softgarden.baselibrary.utils.EmptyUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CatalogActivity extends RefreshActivity implements BaseQuickAdapter.OnItemClickListener {
@@ -28,6 +30,7 @@ public class CatalogActivity extends RefreshActivity implements BaseQuickAdapter
 
     private CatalogAdapter mAdapter;
     private String book_id;
+    private List<ChapterBean> list;
 
     @Override
     protected int getLayoutId() {
@@ -37,7 +40,13 @@ public class CatalogActivity extends RefreshActivity implements BaseQuickAdapter
     @Nullable
     @Override
     protected BaseToolbar.Builder setToolbar(@NonNull BaseToolbar.Builder builder) {
-        return null;
+        return builder.setTitle("全部章节")
+                .addRightImage(R.mipmap.icon_sort, v -> {
+                    if (EmptyUtil.isNotEmpty(list)) {
+                        Collections.reverse(list);
+                        mAdapter.setNewData(list);
+                    }
+                });
     }
 
     @Override
@@ -59,7 +68,7 @@ public class CatalogActivity extends RefreshActivity implements BaseQuickAdapter
                     @Override
                     public void onSuccess(@Nullable BookChaptersBean data) {
                         if (data != null && data.getMixToc() != null) {
-                            List<ChapterBean> list = data.getMixToc().getChapters();
+                            list = data.getMixToc().getChapters();
                             //Collections.reverse(list);
                             mAdapter.setNewData(list);
                         }

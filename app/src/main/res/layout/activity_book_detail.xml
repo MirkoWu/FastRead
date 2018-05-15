@@ -112,6 +112,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <Space
@@ -123,7 +125,7 @@
                     android:id="@+id/mBtnStartRead"
                     style="@style/StyleButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="开始阅读" />
 
                 <Space
@@ -135,7 +137,7 @@
                     android:id="@+id/mBtnCatalog"
                     style="@style/StyleButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="查看目录" />
 
                 <Space
@@ -147,7 +149,7 @@
                     android:id="@+id/mBtnAddBookshelf"
                     style="@style/StyleButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="加入书架" />
 
                 <Space
@@ -155,6 +157,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                style="@style/StyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/blue"
+                android:padding="5dp"
+                android:text="最新章节"
+                android:textColor="@color/white" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mRecyclerView"

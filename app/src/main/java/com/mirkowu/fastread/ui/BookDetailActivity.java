@@ -16,6 +16,8 @@ import com.mirkowu.fastread.base.ToolbarActivity;
 import com.mirkowu.fastread.bean.BookChaptersBean;
 import com.mirkowu.fastread.bean.BookDetailBean;
 import com.mirkowu.fastread.bean.ChapterBean;
+import com.mirkowu.fastread.db.BookDetailBeanDao;
+import com.mirkowu.fastread.db.DBManager;
 import com.mirkowu.fastread.network.NetworkTransformer;
 import com.mirkowu.fastread.network.RetrofitClient;
 import com.mirkowu.fastread.network.RxCallback;
@@ -47,11 +49,16 @@ public class BookDetailActivity extends ToolbarActivity implements BaseQuickAdap
     TextView mTvTime;
     @BindView(R.id.mTvDes)
     TextView mTvDes;
+    @BindView(R.id.mBtnAddBookshelf)
+    TextView mBtnAddBookshelf;
     @BindView(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
 
     private CatalogAdapter mAdapter;
     private String book_id;
+    private BookDetailBeanDao bookDao;
+    private BookDetailBean bookDetailBean;
+    private boolean isAddBookShelf;//是否已加入书架
 
     @Override
     protected int getLayoutId() {
@@ -67,6 +74,8 @@ public class BookDetailActivity extends ToolbarActivity implements BaseQuickAdap
     @Override
     protected void initialize() {
         book_id = getIntent().getStringExtra(KEY_DATA);
+        bookDao = DBManager.getInstance().getNewSession().getBookDetailBeanDao();
+        isAddBookShelf = bookDao.load(book_id) != null;
         initRecyclerView();
         loadBookDetail();
         loadChapters();
@@ -115,6 +124,7 @@ public class BookDetailActivity extends ToolbarActivity implements BaseQuickAdap
     }
 
     private void setBookData(BookDetailBean data) {
+        this.bookDetailBean = data;
         getToolbar().setTitle(data.getTitle());
         ImageUtil.load(mIvCover, data.getCover());
         mTvAuthor.setText(data.getAuthor());
@@ -122,6 +132,12 @@ public class BookDetailActivity extends ToolbarActivity implements BaseQuickAdap
         mTvFrom.setText(data.getCopyright());
         mTvTime.setText(data.getUpdated());
         mTvDes.setText(data.getLongIntro());
+        if (isAddBookShelf) {
+            mBtnAddBookshelf.setText("移除书架");
+        } else {
+            mBtnAddBookshelf.setText("加入书架");
+        }
+
     }
 
     @OnClick({R.id.mBtnStartRead, R.id.mBtnCatalog, R.id.mBtnAddBookshelf})
@@ -130,9 +146,18 @@ public class BookDetailActivity extends ToolbarActivity implements BaseQuickAdap
             case R.id.mBtnStartRead://开始阅读
                 break;
             case R.id.mBtnCatalog://目录
-                CatalogActivity.start(this,book_id);
+                CatalogActivity.start(this, book_id);
                 break;
-            case R.id.mBtnAddBookshelf://加入书架
+            case R.id.mBtnAddBookshelf://加入/移除 书架
+                if (isAddBookShelf) {
+                    bookDao.delete(bookDetailBean);
+                    mBtnAddBookshelf.setText("加入书架");
+                    isAddBookShelf = false;
+                } else {
+                    bookDao.insert(bookDetailBean);
+                    mBtnAddBookshelf.setText("移除书架");
+                    isAddBookShelf = true;
+                }
                 break;
 
         }
