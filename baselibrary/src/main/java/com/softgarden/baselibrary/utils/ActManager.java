@@ -11,15 +11,15 @@ import java.util.Stack;
  * 添加/删除 建议在{@link android.app.Application#registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks)}中统一处理
  * (此方法比在BaseActivity中处理要好)
  */
-public class ActivityManager {
+public class ActManager {
     private static Stack<Activity> mActStack = new Stack<>();
-    private volatile static ActivityManager instance;
+    private volatile static ActManager instance;
 
-    public static ActivityManager getInstance() {
+    public static ActManager getInstance() {
         if (instance == null) {
-            synchronized (ActivityManager.class) {
+            synchronized (ActManager.class) {
                 if (instance == null) {
-                    instance = new ActivityManager();
+                    instance = new ActManager();
                 }
             }
         }

@@ -16,7 +16,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.softgarden.baselibrary.utils.ActivityManager;
+import com.softgarden.baselibrary.utils.ActManager;
 
 
 /**
@@ -58,6 +58,7 @@ public class BaseApplication extends Application {
         instance = this;
         Logger.addLogAdapter(new AndroidLogAdapter());//logger
         registerActivityLifecycle();
+
     }
 
 
@@ -68,7 +69,7 @@ public class BaseApplication extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                ActivityManager.getInstance().add(activity);//加入管理栈
+                ActManager.getInstance().add(activity);//加入管理栈
 
             }
 
@@ -99,7 +100,7 @@ public class BaseApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                ActivityManager.getInstance().remove(activity);//移除管理栈
+                ActManager.getInstance().remove(activity);//移除管理栈
             }
         });
     }
